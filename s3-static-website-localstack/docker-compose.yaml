@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  localstack:
+    container_name: "${LOCALSTACK_DOCKER_NAME:-localstack-main}"
+    image: localstack/localstack:s3-latest
+    ports:
+      - "127.0.0.1:4566:4566"            # LocalStack Gateway
+    environment:
+      - DEBUG=${DEBUG:-0}
+    volumes:
+      - ./:/opt/code/localstack/files
+      - ./deploy-s3.sh:/etc/localstack/init/ready.d/start-localstack.sh
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    #  - "${LOCALSTACK_VOLUME_DIR:-./volume}:/var/lib/localstack"
